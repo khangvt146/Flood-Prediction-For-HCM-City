@@ -44,7 +44,7 @@ client.on_subscribe = subscribed
 client.on_message = recv_message
 
 # Read Data from csv.file
-data = pd.read_csv('Data/Sensor_1.csv')
+data = pd.read_csv('D:\Đồ án đa ngành\Data/Sensor_1.csv')
 
 rainfall = data.iloc[:, 1]
 tide = data.iloc[:, 2]

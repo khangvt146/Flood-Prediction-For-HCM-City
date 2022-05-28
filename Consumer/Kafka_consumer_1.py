@@ -4,6 +4,7 @@ import json
 import requests
 import copy
 import datetime
+import numpy as np
 
 # KAFKA INIT
 BOOTSTRAP_SEVER = "localhost:9092"
@@ -57,6 +58,26 @@ def flood_level(flooded):
         return "medium"
     elif flooded >= 30000:
         return "high"
+
+
+def find_anomalies(data):
+    # define a list to accumlate anomalies
+    anomalies = []
+
+    # Set upper and lower limit to 3 standard deviation
+    data_std = np.std(data)
+    data_mean = np.mean(data)
+    anomaly_cut_off = data_std * 3
+
+    lower_limit = data_std - anomaly_cut_off
+    upper_limit = data_mean + anomaly_cut_off
+    # Generate outliers
+    i = 0
+    for outlier in data:
+        if outlier > upper_limit or outlier < lower_limit:
+            anomalies.append(i)
+        i += 1
+    return anomalies
 
 
 client = mqttclient.Client("Sensor 1")
